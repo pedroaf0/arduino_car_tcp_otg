@@ -1,0 +1,21 @@
+{
+  "name": "socket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "jimp": "^0.12.0",
+    "qrcode-reader": "^1.0.4",
+    "remote-serial-port-client": "^0.4.0",
+    "serialport": "^8.0.7",
+    "socket.io": "^2.3.0",
+    "tcp-client": "^1.1.9"
+  }
+}

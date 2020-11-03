@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+
+</head>
+
+<body>
+<video id="video" src="kk"></video>
+    <div id="ball"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src='joypad.min.js'></script>
+    <script>
+        const socket = io(`${window.location.hostname}:${window.location.port}`);
+        socket.on('data', link => {
+    document.getElementById('video').src = link;
+    console.log(link);
+});
+var movi;
+            var last = 'jj';
+            myVar = setTimeout(function(){ socket.emit('cli','stop' ); console.log('stop') }, 100);
+
+        function moveBall(e) {
+            const { directionOfMovement, stickMoved,axisMovementValue } = e.detail;
+            const pixelsToMove = 6;
+            clearTimeout(myVar);
+            myVar = setTimeout(function(){ socket.emit('cli','stop' ); console.log('stop'); last = 'stop' }, 50);
+
+
+            // if(axisMovementValue >0.6 && axisMovementValue<1 || axisMovementValue <-0.6 && axisMovementValue>-1){
+            //     movi[mx] = `${mx}:${directionOfMovement}:155`;
+            // }
+            if(axisMovementValue == -1 || axisMovementValue == 1 ){
+                movi = directionOfMovement;
+            }
+            if(axisMovementValue < 0.3 && axisMovementValue >-0.3 ){
+                movi = `stop`;
+            }
+
+            if (movi != last){
+                last = movi;
+
+            socket.emit('cli',movi );
+
+            console.log(movi);
+            }
+            
+        }
+		joypad.on('button_press', e => {
+    const { buttonName } = e.detail;
+            if(buttonName == 'button_6'){
+                socket.emit('cli', 'stop' );
+                console.log('stop');
+
+            }
+    console.log(`${buttonName} was pressed!`);
+});
+
+
+        joypad.set({ axisMovementThreshold: 0.3 });
+        joypad.on('axis_move', e => {
+            return moveBall(e)
+        });
+    </script>
+</body>
+
+</html>
